@@ -15,12 +15,13 @@ import urllib.request
 from common.limiter import RequestLimitsRule, RequestLimiter
 
 class UrllibAgent(RequestLimiter):
+    headers={"User-Agent":"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36 QIHU 360SE"}
+
     """Urllib代理层
     不支持并发，本身带Key请求，速度也提不起来
     """
     def __init__(self, name, *many_request_limits) -> None:
         super().__init__(name, *many_request_limits)
-        
     
     def request(self, url, params):
         param_str = urllib.parse.urlencode(params)
@@ -28,7 +29,11 @@ class UrllibAgent(RequestLimiter):
 
         self.wait()   #等待一次份额
 
-        with urllib.request.urlopen(req_url) as f:
+        req=urllib.request.Request(url=req_url,
+            headers=self.headers
+        )
+
+        with urllib.request.urlopen(req) as f:
             data = f.read()
             data = data.decode('utf-8')
             obj = json.loads(data)
