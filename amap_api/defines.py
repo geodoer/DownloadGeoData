@@ -1,0 +1,4 @@
+
+AMAP_KEY = "e28ed3ab9b8b955626b7a0247d6cea68"
+#e28ed3ab9b8b955626b7a0247d6cea68
+#efdaa20612fea6092643acd3c1fd7756

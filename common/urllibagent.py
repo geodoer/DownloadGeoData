@@ -19,7 +19,7 @@ class UrllibAgent(RequestLimiter):
     不支持并发，本身带Key请求，速度也提不起来
     """
     def __init__(self, name, *many_request_limits) -> None:
-        super().__init__(name, many_request_limits)
+        super().__init__(name, *many_request_limits)
         
     
     def request(self, url, params):
