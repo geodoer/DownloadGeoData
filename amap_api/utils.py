@@ -1,4 +1,13 @@
+from shapely.geometry import point
 
+def parse_point_str(point_str):
+    tmp = point_str.split(',')
+    return float(tmp[0]), float(tmp[1])
+
+def create_point_from_str(location_str):
+    tmp = parse_point_str(location_str)
+    return point.Point(tmp[0], tmp[1])
+    
 def parse_polyline_str(polyline_str):
     """解析AMap HTTP Polyline字符串
     """
