@@ -145,7 +145,7 @@ class AMapPOIAPI(object):
             os.makedirs(self.params["out_dir"])
 
         # save paramters
-        fp = os.path.join(self.params["out_dir"], "params.json")
+        fp = os.path.join(self.params["out_dir"], "params.geodoer.json")
         json.dump(
             self.params,
             open(fp, "w", encoding="utf-8"),
@@ -157,7 +157,7 @@ class AMapPOIAPI(object):
 
     @property
     def __cache_file(self)->str:
-        return f"cache-{self.__class__.__name__}.json"
+        return f"cache-{self.__class__.__name__}.geodoer.json"
 
     def start(self):
         """Start the download
@@ -222,7 +222,7 @@ class AMapPOIAPI(object):
 
         out_dir = self.params["out_dir"]
 
-        fn = "{}_{}_{}.json".format(
+        fn = "{}_{}_{}.geodoer.json".format(
             self.state['out_file_cnt'],
             self.params["city"],
             self.state["grid_cursor"]
@@ -279,7 +279,7 @@ class AMapPOIAPI(object):
         self.state["over"] = True
         print(f"[Success] A total of {self.state['poi_count']} POIs were downloaded.")
 
-        fp = os.path.join(self.params["out_dir"], "task.json")
+        fp = os.path.join(self.params["out_dir"], "task.geodoer.json")
         with open(fp, "w", encoding="utf-8") as f:
             _str = jsonpickle.encode(self)
             f.write(_str)
