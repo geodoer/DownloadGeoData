@@ -13,7 +13,7 @@ poi_params = {
     "key" : defines.AMAP_KEY,
 
     #输出路径（不要后缀名，程序会自动加json）
-    "out_dir": "上海POI_地名地址信息__gcj02",
+    "out_dir": "上海_gcj02",
     
     # 城市
     "city" : "上海",
@@ -21,16 +21,16 @@ poi_params = {
     # POI类型（可查看官方给的文档）
     "typenamecodes" : [
        ["地名地址信息", "190000"]
-    #    ,["餐饮服务", "050000"]
-    #    ,["道路附属设施", "180000"]
-    #    ,["公司企业", "170000"]
-    #    ,["购物服务", "060000"]
-    #    ,["交通设施服务", "150000"]
-    #    ,["金融保险服务", "160000"]
-    #    ,["科教文化服务", "140000"]
-    #    ,["商务住宅", "120000"]
-    #    ,["医疗保健服务", "090000"]
-    #    ,["政府机构及社会团体", "130000"]
+       ,["餐饮服务", "050000"]
+       ,["道路附属设施", "180000"]
+       ,["公司企业", "170000"]
+       ,["购物服务", "060000"]
+       ,["交通设施服务", "150000"]
+       ,["金融保险服务", "160000"]
+       ,["科教文化服务", "140000"]
+       ,["商务住宅", "120000"]
+       ,["医疗保健服务", "090000"]
+       ,["政府机构及社会团体", "130000"]
     ],
     
     #保存的字段。可选，默认为id、name
@@ -221,8 +221,13 @@ class AMapPOIAPI(object):
             return
 
         out_dir = self.params["out_dir"]
-        fn = out_dir.split('/')[-1]
-        fp = os.path.join(out_dir, f"{fn}-{self.state['out_file_cnt']}.json")
+
+        fn = "{}_{}_{}.json".format(
+            self.state['out_file_cnt'],
+            self.params["city"],
+            self.state["grid_cursor"]
+        )
+        fp = os.path.join(out_dir, fn)
 
         gdf = geopandas.GeoDataFrame(
             self.dataset["attr"],
@@ -264,8 +269,6 @@ class AMapPOIAPI(object):
                 _str = jsonpickle.encode(self)
                 f.write(_str)
                 print("任务未结束，但已存档{}".format(self.__cache_file))
-        else:
-            self.__success()
 
     def __compute_grid(self):
         regionutil = region.AMapRegionAPI(self.params["key"])
